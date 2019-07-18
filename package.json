@@ -1,0 +1,22 @@
+{
+  "name": "car-location-api",
+  "version": "0.0.1",
+  "description": "Car location API services",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wildan3105/car-location-api.git"
+  },
+  "author": "Wildan S. Nahar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wildan3105/car-location-api/issues"
+  },
+  "homepage": "https://github.com/wildan3105/car-location-api#readme",
+  "dependencies": {
+    "express": "4.17.1"
+  }
+}
