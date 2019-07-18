@@ -18,5 +18,8 @@
   "homepage": "https://github.com/wildan3105/car-location-api#readme",
   "dependencies": {
     "express": "4.17.1"
+  },
+  "devDependencies": {
+    "should": "13.2.3"
   }
 }
