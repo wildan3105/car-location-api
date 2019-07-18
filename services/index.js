@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { cars, dataStatus } = require('../modules/constants');
+const { search } = require('./search')
 
 router.get('/', (req, res) => {
 	res.json({
@@ -17,14 +18,21 @@ router.get('/cars', (req, res) => {
 	})
 })
 
+router.get('/cars/search', (req, res) => {
+	res.json({
+		...dataStatus,
+		message: search
+	})
+})
+
 router.get('/cars/:id', (req, res) => {
 
 	const carById = cars.data.filter(car => car.id === Number(req.params.id));
-	
+
 	if(carById.length <= 0) {
 		res.status(404).json({
 			status: false,
-			message: "Car not found"
+			message: `Car with id '${req.params.id}' is not found`
 		})
 	} else {
 		res.json({
@@ -32,6 +40,13 @@ router.get('/cars/:id', (req, res) => {
 			carById
 		})
 	}
+})
+
+router.get('*', (req, res) => {
+	res.status(404).json({
+		status: false,
+		message: "Wow! You are entering the jungle ⛳️"
+	})
 })
 
 module.exports = router; 
