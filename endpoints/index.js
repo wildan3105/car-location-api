@@ -4,6 +4,8 @@ const { cars, dataStatus } = require('../lib/constants');
 const { search } = require('./search')
 const helper = require('../helper');
 const order = require('../lib/filter-order');
+const limit = require('../lib/filter-limit');
+const skip = require('../lib/filter-skip');
 
 const orderNames = ['id', 'is_on_trip', 'location_name', 'order_type'];
 const orderTypes = ['asc', 'desc'];
@@ -23,22 +25,25 @@ router.get('/cars', (req, res) => {
 			data: cars
 		})
 	} else {
-		if((orderNames.indexOf(req.query.order_name.toLowerCase()) < 0) || (orderTypes.indexOf(req.query.order_type.toLowerCase())) < 0) {
-			res.status(400).json({
-				status: false,
-				message: `Invalid order_name of '${req.query.order_name}' or order_type of '${req.query.order_type}' `
-			});
-		} else {
-			const { size, data } = order(req.query.order_name.toLowerCase(), req.query.order_type.toLowerCase());
-			res.json({
-				...dataStatus,
-				filter: {
-					...req.query
-				},
-				size,
-				data
-			});
-		}
+		// if((orderNames.indexOf(req.query.order_name.toLowerCase()) < 0) || (orderTypes.indexOf(req.query.order_type.toLowerCase())) < 0) {
+		// 	res.status(400).json({
+		// 		status: false,
+		// 		message: `Invalid order_name of '${req.query.order_name}' or order_type of '${req.query.order_type}' `
+		// 	});
+		// } else {
+		// 	const { size, data } = order(req.query.order_name.toLowerCase(), req.query.order_type.toLowerCase());
+		// 	res.json({
+		// 		...dataStatus,
+		// 		filter: {
+		// 			...req.query
+		// 		},
+		// 		size,
+		// 		data
+		// 	});
+		// }
+		res.json({
+			data: skip(req.query.skip)
+		})
 	}
 })
 

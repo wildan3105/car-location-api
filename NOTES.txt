@@ -1,0 +1,5 @@
+# WHOLE FEATURES:
+- unit tests
+- documentation
+- containerized
+- herokuapp deployment
