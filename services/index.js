@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { cars, dataStatus } = require('../modules/constants');
+const { cars, dataStatus } = require('../lib/constants');
 const { search } = require('./search')
 
 router.get('/', (req, res) => {
