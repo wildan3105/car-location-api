@@ -2,15 +2,13 @@
 A set of APIs for exploring car locations data
 
 ## Filter available:
-- limit
-	- N-number
 - order
 	- by id
 	- by location 
 	- by trip status
-- skip (pagination)
-	- N-number
-	- per_page
+- pagination
+	- from
+	- size
 - where 
 	- id
 	- location 
