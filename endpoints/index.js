@@ -4,8 +4,7 @@ const { cars, dataStatus } = require('../lib/constants');
 const { search } = require('./search')
 const helper = require('../helper');
 const order = require('../lib/filter-order');
-const limit = require('../lib/filter-limit');
-const skip = require('../lib/filter-skip');
+const pagination = require('../lib/filter-pagination');
 
 const orderNames = ['id', 'is_on_trip', 'location_name', 'order_type'];
 const orderTypes = ['asc', 'desc'];
@@ -19,10 +18,16 @@ router.get('/', (req, res) => {
 
 router.get('/cars', (req, res) => {
 	if(helper.isObjectEmpty(req.query)) {
+		// default to from = 0, size = 10 (page 1)
 		res.json({
 			...dataStatus,
-			size: cars.data.length,
-			data: cars
+			//size: cars.data.length,
+			data: pagination()
+		})
+	} else if(req.query.from || req.query.size) {
+		res.json({
+			...dataStatus,
+			data: pagination(req.query.from, req.query.size)
 		})
 	} else {
 		// if((orderNames.indexOf(req.query.order_name.toLowerCase()) < 0) || (orderTypes.indexOf(req.query.order_type.toLowerCase())) < 0) {
@@ -42,7 +47,7 @@ router.get('/cars', (req, res) => {
 		// 	});
 		// }
 		res.json({
-			data: skip(req.query.skip)
+			data: pagination()
 		})
 	}
 })
