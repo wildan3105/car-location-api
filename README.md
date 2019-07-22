@@ -11,7 +11,7 @@ A set of APIs for exploring car locations data
 	- size
 - where 
 	- id
-	- location 
+	- location_name
 	- trip status
 
 
