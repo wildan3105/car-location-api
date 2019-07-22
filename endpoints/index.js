@@ -5,6 +5,7 @@ const { search } = require('./search')
 const helper = require('../helper');
 const order = require('../lib/filter-order');
 const pagination = require('../lib/filter-pagination');
+const where = require('../lib/filter-where');
 
 const orderNames = ['id', 'is_on_trip', 'location_name', 'order_type'];
 const orderTypes = ['asc', 'desc'];
@@ -28,6 +29,11 @@ router.get('/cars', (req, res) => {
 		res.json({
 			...dataStatus,
 			data: pagination(req.query.from, req.query.size)
+		})
+	} else if(req.query.where) {
+		res.json({
+			...dataStatus,
+			data: where(req.query.where)
 		})
 	} else {
 		// if((orderNames.indexOf(req.query.order_name.toLowerCase()) < 0) || (orderTypes.indexOf(req.query.order_type.toLowerCase())) < 0) {
