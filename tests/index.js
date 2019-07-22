@@ -172,34 +172,128 @@ describe('Cars endpoint', () => {
 		})
 	}) 
 
-	// describe('FILTER: Where (exact match) ', () => {
-	// 	it('Should find item where id is certain value', (done) => {
+	describe('FILTER: Where (exact match) ', () => {
+		it('Should find item where id is certain value', (done) => {
+			const where = {
+				id: 3
+			};
+			chai.request(app)
+				.get(`/cars?where=${JSON.stringify(where)}`)
+				.end((err, res) => {
+					res.should.have.status(200);
+					const data = res.body.data;
+					data.should.be.a('array');
+					expect(data).to.have.lengthOf(1);
+					expect(data[0].id).to.equal(where.id);
+					done();
+				})
+		})
 
-	// 	})
+		it('Should find item(s) where is_on_trip is certain value', (done) => {
+			const where = {
+				is_on_trip: true
+			};
+			chai.request(app)
+				.get(`/cars?where=${JSON.stringify(where)}`)
+				.end((err, res) => {
+					const data = res.body.data;
+					const isEveryItemsMatch = (data.filter(d => 
+						d.is_on_trip == where.is_on_trip)).length == data.length;
+					res.should.have.status(200);
+					expect(isEveryItemsMatch).to.be.true;
+					done();
+				})			
+		})
 
-	// 	it('Should find item where is_on_trip is certain value', (done) => {
-			
-	// 	})
+		it('Should find item where location_name is certain value', (done) => {
+			const where = {
+				location_name: "Star City"
+			};
+			chai.request(app)
+				.get(`/cars?where=${JSON.stringify(where)}`)
+				.end((err, res) => {
+					const data = res.body.data;
+					const isEveryItemsMatch = (data.filter(d => 
+						d.location_name == where.location_name)).length == data.length;
+					res.should.have.status(200);
+					expect(isEveryItemsMatch).to.be.true;
+					done();
+				})	
+		})
 
-	// 	it('Should find item where location_name is certain value', (done) => {
-			
-	// 	})
+		it('Should find item where id & is_on_trip is certain value', (done) => {
+			const where = {
+				is_on_trip: false,
+				id: 1
+			};
+			chai.request(app)
+				.get(`/cars?where=${JSON.stringify(where)}`)
+				.end((err, res) => {
+					const data = res.body.data;
+					const isEveryItemsMatch = (data.filter(d => 
+						d.is_on_trip == where.is_on_trip && 
+						d.id == where.id)).length == data.length;
+					res.should.have.status(200);
+					expect(isEveryItemsMatch).to.be.true;
+					done();
+				})	
+		})
 
-	// 	it('Should find item where id & is_on_trip is certain value', (done) => {
-			
-	// 	})
+		it('Should find item where id & location_name is certain value', (done) => {
+			const where = {
+				location_name: "Star City",
+				id: 10
+			};
+			chai.request(app)
+				.get(`/cars?where=${JSON.stringify(where)}`)
+				.end((err, res) => {
+					const data = res.body.data;
+					const isEveryItemsMatch = (data.filter(d => 
+						d.location_name == where.location_name && 
+						d.id == where.id)).length == data.length;
+					res.should.have.status(200);
+					expect(isEveryItemsMatch).to.be.true;
+					done();
+				})		
+		})
 
-	// 	it('Should find item where id & location_name is certain value', (done) => {
-			
-	// 	})
+		it('Should find item where location_name & is_on_trip is certain value', (done) => {
+			const where = {
+				location_name: "Star City",
+				is_on_trip: false
+			};
+			chai.request(app)
+				.get(`/cars?where=${JSON.stringify(where)}`)
+				.end((err, res) => {
+					const data = res.body.data;
+					const isEveryItemsMatch = (data.filter(d => 
+						d.location_name == where.location_name && 
+						d.is_on_trip == where.is_on_trip)).length == data.length;
+					res.should.have.status(200);
+					expect(isEveryItemsMatch).to.be.true;
+					done();
+				})	
+		})
 
-	// 	it('Should find item where location_name & is_on_trip is certain value', (done) => {
-			
-	// 	})
+		it('Should find item where id, location_name, & is_on_trip is certain value', (done) => {
+			const where = {
+				location_name: "Star City",
+				is_on_trip: false,
+				id: 10
+			};
+			chai.request(app)
+				.get(`/cars?where=${JSON.stringify(where)}`)
+				.end((err, res) => {
+					const data = res.body.data;
+					const isEveryItemsMatch = (data.filter(d => 
+						d.location_name == where.location_name && 
+						d.is_on_trip == where.is_on_trip && 
+						d.id == where.id)).length == data.length;
+					res.should.have.status(200);
+					expect(isEveryItemsMatch).to.be.true;
+					done();
+				})	
+		})
 
-	// 	it('Should find item where id, location_name, & is_on_trip is certain value', (done) => {
-			
-	// 	})
-
-	// })
+	})
 })
