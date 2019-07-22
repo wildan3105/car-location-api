@@ -35,23 +35,24 @@ router.get('/cars', (req, res) => {
 			...dataStatus,
 			data: where(req.query.where)
 		})
+	} else if(req.query.order_name) {
+		if((orderNames.indexOf(req.query.order_name.toLowerCase()) < 0) || (orderTypes.indexOf(req.query.order_type.toLowerCase())) < 0) {
+			res.status(400).json({
+				status: false,
+				message: `Invalid order_name of '${req.query.order_name}' or order_type of '${req.query.order_type}' `
+			});
+		} else {
+			const { size, data } = order(req.query.order_name.toLowerCase(), req.query.order_type.toLowerCase());
+			res.json({
+				...dataStatus,
+				filter: {
+					...req.query
+				},
+				size,
+				data
+			});
+		}
 	} else {
-		// if((orderNames.indexOf(req.query.order_name.toLowerCase()) < 0) || (orderTypes.indexOf(req.query.order_type.toLowerCase())) < 0) {
-		// 	res.status(400).json({
-		// 		status: false,
-		// 		message: `Invalid order_name of '${req.query.order_name}' or order_type of '${req.query.order_type}' `
-		// 	});
-		// } else {
-		// 	const { size, data } = order(req.query.order_name.toLowerCase(), req.query.order_type.toLowerCase());
-		// 	res.json({
-		// 		...dataStatus,
-		// 		filter: {
-		// 			...req.query
-		// 		},
-		// 		size,
-		// 		data
-		// 	});
-		// }
 		res.json({
 			data: pagination()
 		})
