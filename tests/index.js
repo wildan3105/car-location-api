@@ -296,4 +296,14 @@ describe('Cars endpoint', () => {
 		})
 
 	})
+
+	describe('INTEGRATION FILTER: Order, Pagination, and Where ', () => {
+		it('Should bla bla blaa')
+	})
+
+	describe('SEARCH: ', () => {
+		it('Should search within radius of N-km')
+	})
+
+	
 })

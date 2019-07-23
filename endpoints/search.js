@@ -9,13 +9,19 @@ const two = {
 	lon: 103.812455333
 }
 
-const distanceInKm = (geolib.getPreciseDistance(
+const distanceInKm = Number((geolib.getPreciseDistance(
 	{ latitude: one.lat, longitude: one.lon },
 	{ latitude: two.lat, longitude: two.lon }
-	) / 1000).toFixed(2);
+	) / 1000).toFixed(2));
+
 
 //console.log(distanceInKm,'km away')
 
 module.exports = {
-	search: 'Searching...'
+	search: () => {
+		return {
+			status: 'Searching...',
+			distance: distanceInKm + ' km'
+		}
+	}
 }

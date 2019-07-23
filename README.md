@@ -15,5 +15,5 @@ A set of APIs for exploring car locations data
 	- trip status
 
 
-## Special features:
-- Search car within n-km that currently available
+## Special features: SEARCH BY COORDINATES
+- Search available car (is_on_trip == true) with different radius from certain point

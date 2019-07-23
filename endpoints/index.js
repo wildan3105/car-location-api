@@ -18,7 +18,7 @@ router.get('/cars', (req, res) => {
 
 	const data = commonFilter(req.query);
 
-	if(data.status > 200) {
+	if(data.status && data.status > 200) {
 		let message;
 		switch(data.status) {
 			case 404: message = 'not found';
@@ -46,7 +46,7 @@ router.get('/cars', (req, res) => {
 router.get('/cars/search', (req, res) => {
 	res.json({
 		...dataStatus,
-		message: search
+		message: search()
 	})
 })
 
