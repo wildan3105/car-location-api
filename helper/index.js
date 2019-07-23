@@ -1,3 +1,5 @@
+const { longitudeFormats, latitudeFormats, latitudeLimits, longitudeLimits } = require('../lib/constants');
+
 const isObjectEmpty = (obj) => {
 	return Object.keys(obj).length === 0;
 }
@@ -11,7 +13,36 @@ const isJson = (string) => {
 	}
 }
 
+const isValidCoordinates = (coordinates) => {
+
+	if(typeof coordinates !== 'object') {
+		return false;
+	};
+
+	const keys = Object.keys(coordinates)
+
+	const isLatitudeValid = keys.some(val => latitudeFormats.includes(val));
+	const isLongitudeValid = keys.some(val => longitudeFormats.includes(val));
+
+	if(!isLatitudeValid || !isLongitudeValid) {
+		return false;
+	}
+
+	const keyOne = Object.keys(coordinates)[0];
+	const keyTwo = Object.keys(coordinates)[1];
+
+	const latValue = latitudeFormats.indexOf(keyOne) >= 0 ? coordinates[keyOne] : coordinates[keyTwo];
+	const longValue = longitudeFormats.indexOf(keyOne) >= 0 ? coordinates[keyOne] : coordinates[keyTwo];
+
+	if((latValue < latitudeLimits.min || latValue > latitudeLimits.max) || (longValue < longitudeLimits.min || longValue > longitudeLimits.max)) {
+		return false;
+	}
+
+	return true;
+}
+
 module.exports = {
 	isObjectEmpty,
-	isJson
+	isJson,
+	isValidCoordinates
 };

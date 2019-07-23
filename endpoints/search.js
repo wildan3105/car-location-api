@@ -1,11 +1,19 @@
-const { cars } = require('../lib/constants');
+const { cars, defaultSearchRadiusInKm } = require('../lib/constants');
+const { isValidCoordinates } = require('../helper');
 const geolib = require('geolib');
 
 module.exports = (query) => {
 	let data;
 
 	const from = JSON.parse(query.coordinates);
-	const radius = JSON.parse(query.radius);
+	const radius = JSON.parse(query.radius) || defaultSearchRadiusInKm * 1000;
+
+	if(!isValidCoordinates(from)) {
+		return {
+			data: [],
+			status: 400
+		}
+	}
 
 	if(radius < 0) {
 		return {
