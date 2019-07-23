@@ -297,8 +297,33 @@ describe('Cars endpoint', () => {
 
 	})
 
-	describe('INTEGRATION FILTER: Order, Pagination, and Where ', () => {
-		it('Should bla bla blaa')
+	describe('INTEGRATION FILTER: Where, Order, and Pagination, ', () => {
+		it('Should return item(s) where is_on_trip = true, ordered by id DESC and limit item(s) to 3 and skip 3rd item', (done) => {
+			const where = {
+				is_on_trip: true
+			}
+			const order = {
+				order_name: 'id',
+				order_type: 'desc'
+			}
+			const pagination = {
+				from: 3,
+				size: 3
+			}
+			chai.request(app)
+				.get(`/cars?where=${JSON.stringify(where)}&order_name=${order.order_name}&order_type=${order.order_type}&from=${pagination.from}&size=${pagination.size}`)
+				.end((err, res) => {
+					const data = res.body.data;
+					const isEveryItemHaveOnTripStatusSameAsRequest = data.filter(d => d.is_on_trip == where.is_on_trip).length == data.length;
+					const firstItemId = data[0].id;
+					const secondItemId = data[1].id;
+					res.should.have.status(200);
+					expect(isEveryItemHaveOnTripStatusSameAsRequest).to.be.true; // where filter
+					expect(firstItemId > secondItemId).to.be.true; // order filter
+					expect(data).have.a.lengthOf(pagination.size); // pagination filter
+					done();
+				})
+		})
 	})
 
 	describe('SEARCH: ', () => {
