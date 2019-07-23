@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const { cars, dataStatus } = require('../lib/constants');
 const { search } = require('./search')
+
 const helper = require('../helper');
-const order = require('../lib/filter-order');
-const pagination = require('../lib/filter-pagination');
-const where = require('../lib/filter-where');
+
+const commonFilter = require('../lib');
+
+const { pagination, where, order } = require('../lib/filter');
 
 const orderNames = ['id', 'is_on_trip', 'location_name', 'order_type'];
 const orderTypes = ['asc', 'desc'];
@@ -18,14 +20,13 @@ router.get('/', (req, res) => {
 })
 
 router.get('/cars', (req, res) => {
-	if(helper.isObjectEmpty(req.query)) {
-		// default to from = 0, size = 10 (page 1)
-		res.json({
-			...dataStatus,
-			//size: cars.data.length,
-			data: pagination()
-		})
-	} else if(req.query.from || req.query.size) {
+
+	// res.json({
+	// 	...dataStatus,
+	// 	data: commonFilter(req.query)
+	// })
+
+	if(req.query.from || req.query.size) {
 		res.json({
 			...dataStatus,
 			data: pagination(req.query.from, req.query.size)
@@ -36,6 +37,7 @@ router.get('/cars', (req, res) => {
 			data: where(req.query.where)
 		})
 	} else if(req.query.order_name) {
+		console.log('here');
 		if((orderNames.indexOf(req.query.order_name.toLowerCase()) < 0) || (orderTypes.indexOf(req.query.order_type.toLowerCase())) < 0) {
 			res.status(400).json({
 				status: false,
@@ -45,9 +47,6 @@ router.get('/cars', (req, res) => {
 			const { size, data } = order(req.query.order_name.toLowerCase(), req.query.order_type.toLowerCase());
 			res.json({
 				...dataStatus,
-				filter: {
-					...req.query
-				},
 				size,
 				data
 			});
