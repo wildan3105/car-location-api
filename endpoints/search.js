@@ -1,25 +1,24 @@
-const { cars, defaultSearchRadiusInKm } = require('../lib/constants');
-const { isValidCoordinates } = require('../helper');
+const { cars, defaultSearchRadiusInKm, badRequest } = require('../lib/constants');
+const { isValidCoordinates, isJson } = require('../helper');
 const geolib = require('geolib');
 
 module.exports = (query) => {
+
+	if(!isJson(query)) {
+		return badRequest;
+	}
+
 	let data;
 
 	const from = JSON.parse(query.coordinates);
 	const radius = JSON.parse(query.radius) || defaultSearchRadiusInKm * 1000;
 
 	if(!isValidCoordinates(from)) {
-		return {
-			data: [],
-			status: 400
-		}
+		return badRequest;
 	}
 
 	if(radius < 0) {
-		return {
-			data: [],
-			status: 400
-		}
+		return badRequest;
 	}
 
 	data = cars.data.filter(f => geolib.isPointWithinRadius(
