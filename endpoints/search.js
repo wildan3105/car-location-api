@@ -1,27 +1,25 @@
+const { cars } = require('../lib/constants');
 const geolib = require('geolib');
-const one = {
-	lat: 1.3258246666,
-	lon: 103.775143166
-}
 
-const two = {
-	lat: 1.2892128333,
-	lon: 103.812455333
-}
+module.exports = (query) => {
+	let data;
 
-const distanceInKm = Number((geolib.getPreciseDistance(
-	{ latitude: one.lat, longitude: one.lon },
-	{ latitude: two.lat, longitude: two.lon }
-	) / 1000).toFixed(2));
+	const from = JSON.parse(query.coordinates);
+	const radius = JSON.parse(query.radius);
 
+	data = cars.data.filter(f => geolib.isPointWithinRadius(
+		{
+			latitude: f.latitude,
+			longitude: f.longitude
+		},
+		from,
+		radius
+	) == true);
 
-//console.log(distanceInKm,'km away')
+	data.forEach(d => {
+		d['distance'] = geolib.getPreciseDistance(from, { latitude: d['latitude'], longitude: d['longitude'] })
+		d['distance_unit'] = 'meters'
+	})
 
-module.exports = {
-	search: () => {
-		return {
-			status: 'Searching...',
-			distance: distanceInKm + ' km'
-		}
-	}
+	return data;
 }

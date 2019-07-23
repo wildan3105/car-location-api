@@ -1,10 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { cars, dataStatus } = require('../lib/constants');
-const { search } = require('./search')
-
-const helper = require('../helper');
-
+const search = require('./search')
 const commonFilter = require('../lib');
 
 router.get('/', (req, res) => {
@@ -46,7 +43,7 @@ router.get('/cars', (req, res) => {
 router.get('/cars/search', (req, res) => {
 	res.json({
 		...dataStatus,
-		message: search()
+		data: search(req.query)
 	})
 })
 
