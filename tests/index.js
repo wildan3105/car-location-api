@@ -363,7 +363,7 @@ describe('Cars endpoint', () => {
 			done();
 		})
 
-		it('Should accept some longitude types', (done) => {
+		it('Should accept some longitude types (return OK 200 / Not found 404)', (done) => {
 			const longitudeTypes = [{name: 'lon'}, {name: 'lng'}, {name: 'longitude'}];
 			longitudeTypes.forEach(lon => {
 				
@@ -399,7 +399,7 @@ describe('Cars endpoint', () => {
 			done();
 		})
 
-		it('Should accept the combination of latitude and longitude types', (done) => {
+		it('Should accept the combination of latitude and longitude types (return OK 200 / Not found 404)', (done) => {
 			const combinedLatAndLonTypes = [
 				{
 					lat: 'lat',
@@ -429,7 +429,7 @@ describe('Cars endpoint', () => {
 			done();
 		})
 
-		it('Should accept range for latitude value: from -90 to 90', (done) => {
+		it('Should accept range for latitude value: from -90 to 90 (return OK 200 / Not found 404)', (done) => {
 			const latitudeValues = [
 				{
 					value: -89.2323
@@ -483,7 +483,7 @@ describe('Cars endpoint', () => {
 			done();
 		})
 
-		it('Should accept range for longitude value: from -180 to 180', (done) => {
+		it('Should accept range for longitude value: from -180 to 180 (return OK 200 / Not found 404)', (done) => {
 			const longitudeValues = [
 				{
 					value: -179.2323
