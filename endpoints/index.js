@@ -29,6 +29,7 @@ router.get('/cars', (req, res) => {
 
 		res.status(data.status).json({
 			status: false,
+			timestamp: dataStatus.timestamp,
 			message
 		})
 		
@@ -57,6 +58,7 @@ router.get('/cars/search', (req, res) => {
 
 		res.status(data.status).json({
 			status: false,
+			timestamp: dataStatus.timestamp,
 			message
 		})
 	} else {
