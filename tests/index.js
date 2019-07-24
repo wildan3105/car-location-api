@@ -353,52 +353,225 @@ describe('Cars endpoint', () => {
 				coordinates[lat.name] = 10.232;
 				coordinates['lon'] = 120.3483;
 				const radius = 2000;
-				console.log(coordinates);
 				
 				chai.request(app)
 					.get(`/cars/search?coordinates=${JSON.stringify(coordinates)}&radius=${radius}`)
 					.end((err, res) => {
-						console.log(res.status)
 						res.should.have.status(400);
 					})
 			})
 			done();
 		})
 
-		// it('Should accept some longitude types', (done) => {
+		it('Should accept some longitude types', (done) => {
+			const longitudeTypes = [{name: 'lon'}, {name: 'lng'}, {name: 'longitude'}];
+			longitudeTypes.forEach(lon => {
+				
+				let coordinates = {};
+				coordinates['lat'] = 1.023;
+				coordinates[lon.name] = 102.23923
+				const radius = 2000;
 
-		// })
+				chai.request(app)
+					.get(`/cars/search?coordinates=${JSON.stringify(coordinates)}&radius=${radius}`)
+					.end((err, res) => {
+						res.should.have.status(200);
+					})
+			})
+			done();
+		})
 
-		// it('Should accept the combination of latitude and longitude types', (done) => {
+		it('Should NOT accept some longitude types', (done) => {
+			const wrongLongitudeTypes = [{name: 'long'}, {name: 'longi'}];
+			wrongLongitudeTypes.forEach(lon => {
+				
+				let coordinates = {};
+				coordinates['lat'] = 10.232;
+				coordinates[lon.name] = 120.3483;
+				const radius = 2000;
+				
+				chai.request(app)
+					.get(`/cars/search?coordinates=${JSON.stringify(coordinates)}&radius=${radius}`)
+					.end((err, res) => {
+						res.should.have.status(400);
+					})
+			})
+			done();
+		})
 
-		// })
+		it('Should accept the combination of latitude and longitude types', (done) => {
+			const combinedLatAndLonTypes = [
+				{
+					lat: 'lat',
+					lon: 'lon'
+				},
+				{
+					lat: 'latitude',
+					lon: 'longitude'
+				},
+				{
+					lat: 'lat',
+					lon: 'lng'
+				}
+			]
+			combinedLatAndLonTypes.forEach(combine => {
+				let coordinates = {};
+				coordinates[combine.lat] = 40.34394;
+				coordinates[combine.lon] = 120.34839;	
+				const radius = 4000;
 
-		// it('Should accept range for latitude value: from -90 to 90', (done) => {
+				chai.request(app)
+					.get(`/cars/search?coordinates=${JSON.stringify(coordinates)}&radius=${radius}`)
+					.end((err, res) => {
+						res.should.have.status(200);
+					})
+			})
+			done();
+		})
 
-		// })
+		it('Should accept range for latitude value: from -90 to 90', (done) => {
+			const latitudeValues = [
+				{
+					value: -89.2323
+				},
+				{
+					value: -40.34394
+				},
+				{
+					value: 89.348394
+				}
+			]
+			latitudeValues.forEach(lat => {
+				let coordinates = {
+					lat: lat.value,
+					lon: 150.3493489
+				}
+				const radius = 2000;
+				chai.request(app)
+					.get(`/cars/search?coordinates=${JSON.stringify(coordinates)}&radius=${radius}`)
+					.end((err, res) => {
+						res.should.have.status(200);
+					})	
+			})
+			done();
+		})
 
-		// it('Should throw 400 bad request when latitude value are outside of -90 < lat < 90', (done) => {
+		it('Should throw 400 bad request when latitude value are outside of -90 < lat < 90', (done) => {
+			const wrongLatitudeValues = [
+				{
+					value: -99.2323
+				},
+				{
+					value: 90.34394
+				},
+				{
+					value: 120.348394
+				}
+			]
+			wrongLatitudeValues.forEach(lat => {
+				let coordinates = {
+					lat: lat.value,
+					lon: 150.3493489
+				}
+				const radius = 2000;
+				chai.request(app)
+					.get(`/cars/search?coordinates=${JSON.stringify(coordinates)}&radius=${radius}`)
+					.end((err, res) => {
+						res.should.have.status(400);
+					})	
+			})
+			done();
+		})
 
-		// })
+		it('Should accept range for longitude value: from -180 to 180', (done) => {
+			const longitudeValues = [
+				{
+					value: -179.2323
+				},
+				{
+					value: -0.34394
+				},
+				{
+					value: 179.348394
+				}
+			]
+			longitudeValues.forEach(lon => {
+				let coordinates = {
+					lat: 20.348347,
+					lon: lon.value
+				}
+				const radius = 2000;
+				chai.request(app)
+					.get(`/cars/search?coordinates=${JSON.stringify(coordinates)}&radius=${radius}`)
+					.end((err, res) => {
+						res.should.have.status(200);
+					})	
+			})
+			done();
+		})
+		
 
-		// it('Should accept range for longitude value: from -180 to 180', (done) => {
+		it('Should throw 400 bad request when longitude value are outside of -180 < lon < 180', (done) => {
+			const wrongLongitudeValues = [
+				{
+					value: -181.2323
+				},
+				{
+					value: -190.34394
+				},
+				{
+					value: 199.348394
+				}
+			]
+			wrongLongitudeValues.forEach(lon => {
+				let coordinates = {
+					lat: 20.348347,
+					lon: lon.value
+				}
+				const radius = 2000;
+				chai.request(app)
+					.get(`/cars/search?coordinates=${JSON.stringify(coordinates)}&radius=${radius}`)
+					.end((err, res) => {
+						res.should.have.status(400);
+					})	
+			})
+			done();	
+		})
 
-		// })
+		it('Should search within radius of N-km and return all items that distance is <= radius set', (done) => {
+			const coordinates = {
+				lat: 1.3258246666,
+				lon: 103.775143166
+			}
+			const radius = 5000;
+			chai.request(app)
+				.get(`/cars/search?coordinates=${JSON.stringify(coordinates)}&radius=${radius}`)
+				.end((err, res) => {
+					const data = res.body.data;
+					const lastItem = data[data.length - 1];
+					res.should.have.status(200);
+					expect(lastItem.distance < radius).to.be.true;
+					done();
+				})
+		})
 
-		// it('Should throw 400 bad request when longitude value are outside of -180 < lon < 180', (done) => {
-			
-		// })
-
-		// it('Should search within radius of N-km and return all items that distance is <= radius set', (done) => {
-		// 	// const coordinates = {
-		// 	// 	lat:,
-		// 	// 	lon:
-		// 	// }
-		// })
-
-		// it('Should return search result ordered by shortest distance from search point', (done) => {
-
-		// })
+		it('Should return search result ordered by shortest distance from search point', (done) => {
+			const coordinates = {
+				lat: 1.3258246666,
+				lon: 103.775143166
+			}
+			const radius = 5000;
+			chai.request(app)
+				.get(`/cars/search?coordinates=${JSON.stringify(coordinates)}&radius=${radius}`)
+				.end((err, res) => {
+					const data = res.body.data;
+					const firstItem = data[0];
+					const secondItem = data[1]
+					res.should.have.status(200);
+					expect(firstItem.distance < secondItem.distance).to.be.true;
+					done();
+				})
+		})
 	})
 
 	
