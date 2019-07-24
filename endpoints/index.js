@@ -35,21 +35,11 @@ router.get('/cars/search', (req, res) => {
 	const data = search(req.query)
 	
 	if(data.status && data.status > 200){
-		let message;
-		switch(data.status) {
-			case 404: message = 'not found';
-			break;
-
-			case 400: message = 'bad request';
-			break;
-
-			default: message = 'wrong request';
-		}
 
 		res.status(data.status).json({
 			status: false,
 			timestamp: dataStatus.timestamp,
-			message
+			message: data.message || 'Wrong request'
 		})
 	} else {
 		res.json({

@@ -1,7 +1,8 @@
-const { cars, defaultSearchRadiusInKm, badRequest, allowedDistanceUnits } = require('../lib/constants');
+const { cars, defaultSearchRadiusInKm, allowedDistanceUnits } = require('../lib/constants');
 const { isValidCoordinates, isJson } = require('../helper');
 const { order } = require('../lib/filter');
 const geolib = require('geolib');
+let { notFound, badRequest } = require('../lib/constants');
 
 module.exports = (query) => {
 
@@ -14,14 +15,17 @@ module.exports = (query) => {
 	const from = JSON.parse(query.coordinates);
 
 	if(!isValidCoordinates(from)) {
+		badRequest['message'] = 'Not valid coordinates. Please check again your coordinates.';
 		return badRequest;
 	}
 
 	if(radius < 0 || isNaN(Number(radius))) {
+		badRequest['message'] = 'Not valid radius. Please check again your radius.';
 		return badRequest;
 	}
 
 	if(allowedDistanceUnits.indexOf(distanceUnit) < 0) {
+		badRequest['message'] = 'Not valid distance unit. Allowed distance unit is km/meter.';
 		return badRequest;
 	}
 
@@ -40,6 +44,11 @@ module.exports = (query) => {
 	})
 
 	const orderData = order(data, 'distance', 'asc');
+
+	if(orderData.length <= 0) {
+		notFound['message'] = 'Your query is likely not match with any of our data';
+		return notFound;
+	}
 
 	return orderData;
 }
