@@ -23,7 +23,7 @@ bla bla blaaa
 
 ## How to run locally:
 - Traditional
-	```console 
+	```sh 
 	$ git clone https://github.com/wildan3105/car-location-api.git
 	$ cd car-location-api
 	$ npm install
