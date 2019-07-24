@@ -22,6 +22,7 @@ router.get('/cars', (req, res) => {
 	} else {
 		res.json({
 			...dataStatus,
+			total: data.total || null,
 			data
 		})
 	}
@@ -38,6 +39,7 @@ router.get('/cars/search', (req, res) => {
 	} else {
 		res.json({
 			...dataStatus,
+			total: data.total || null,
 			data
 		})
 	} 
