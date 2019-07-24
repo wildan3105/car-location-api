@@ -318,16 +318,87 @@ describe('Cars endpoint', () => {
 					const firstItemId = data[0].id;
 					const secondItemId = data[1].id;
 					res.should.have.status(200);
-					expect(isEveryItemHaveOnTripStatusSameAsRequest).to.be.true; // where filter
-					expect(firstItemId > secondItemId).to.be.true; // order filter
-					expect(data).have.a.lengthOf(pagination.size); // pagination filter
+					expect(isEveryItemHaveOnTripStatusSameAsRequest).to.be.true; 
+					expect(firstItemId > secondItemId).to.be.true; 
+					expect(data).have.a.lengthOf(pagination.size); 
 					done();
 				})
 		})
 	})
 
 	describe('SEARCH: ', () => {
-		it('Should search within radius of N-km')
+		it('Should accept some latitude types', (done) => {
+			const latitudeTypes = [{name: 'lat'}, {name: 'latitude'}];
+			latitudeTypes.forEach(lat => {
+				
+				let coordinates = {};
+				coordinates[lat.name] = 1.023;
+				coordinates['lon'] = 102.23923
+				const radius = 2000;
+
+				chai.request(app)
+					.get(`/cars/search?coordinates=${JSON.stringify(coordinates)}&radius=${radius}`)
+					.end((err, res) => {
+						res.should.have.status(200);
+					})
+			})
+			done();
+		})
+
+		it('Should NOT accept some latitude types', (done) => {
+			const wrongLatitudeTypes = [{name: 'lati'}, {name: 'latude'}];
+			wrongLatitudeTypes.forEach(lat => {
+				
+				let coordinates = {};
+				coordinates[lat.name] = 10.232;
+				coordinates['lon'] = 120.3483;
+				const radius = 2000;
+				console.log(coordinates);
+				
+				chai.request(app)
+					.get(`/cars/search?coordinates=${JSON.stringify(coordinates)}&radius=${radius}`)
+					.end((err, res) => {
+						console.log(res.status)
+						res.should.have.status(400);
+					})
+			})
+			done();
+		})
+
+		// it('Should accept some longitude types', (done) => {
+
+		// })
+
+		// it('Should accept the combination of latitude and longitude types', (done) => {
+
+		// })
+
+		// it('Should accept range for latitude value: from -90 to 90', (done) => {
+
+		// })
+
+		// it('Should throw 400 bad request when latitude value are outside of -90 < lat < 90', (done) => {
+
+		// })
+
+		// it('Should accept range for longitude value: from -180 to 180', (done) => {
+
+		// })
+
+		// it('Should throw 400 bad request when longitude value are outside of -180 < lon < 180', (done) => {
+			
+		// })
+
+		// it('Should search within radius of N-km and return all items that distance is <= radius set', (done) => {
+		// 	// const coordinates = {
+		// 	// 	lat:,
+		// 	// 	lon:
+		// 	// }
+		// })
+
+		// it('Should return search result ordered by shortest distance from search point', (done) => {
+
+		// })
 	})
 
 	
