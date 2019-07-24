@@ -4,7 +4,22 @@ A set of APIs for exploring car locations data
 ## Description
 bla bla blaaa
 
-## Filter available:
+## How to run locally:
+- Traditional
+	```sh 
+	$ git clone https://github.com/wildan3105/car-location-api.git
+	$ cd car-location-api
+	$ npm install
+	$ npm start
+	```
+
+- Containerization
+	```sh
+	$ docker build
+	$ docker run 
+	```
+
+## Feature available:
 - order
 	- by id
 	- by location_name 
@@ -16,24 +31,8 @@ bla bla blaaa
 	- id
 	- location_name
 	- trip status
-
-
-## Special features: SEARCH BY COORDINATES
-- Search available car within n-km from certain coordinates
-
-## How to run locally:
-- Traditional
-	```sh 
-	$ git clone https://github.com/wildan3105/car-location-api.git
-	$ cd car-location-api
-	$ npm install
-	$ npm start
-	```
-
-- Containerization
-```console
-	$ 
-```
+- search
+	- search available car within n-meters from certain coordinates
 
 ## API Documentation
 [Click here](DOCUMENTATION.md)
