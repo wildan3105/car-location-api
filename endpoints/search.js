@@ -7,6 +7,7 @@ let { notFound, badRequest } = require('../lib/constants');
 module.exports = (query) => {
 
 	if(!isJson(query.coordinates)) {
+		badRequest['message'] = 'Your query is invalid. Please modify your query.';
 		return badRequest;
 	}
 
@@ -25,7 +26,7 @@ module.exports = (query) => {
 	}
 
 	if(allowedDistanceUnits.indexOf(distanceUnit) < 0) {
-		badRequest['message'] = 'Not valid distance unit. Allowed distance unit is km/meter.';
+		badRequest['message'] = 'Not valid distance unit. Allowed distance unit is kilometer/meter.';
 		return badRequest;
 	}
 
@@ -36,7 +37,7 @@ module.exports = (query) => {
 	) == true);
 
 	data.forEach(d => {
-		d['distance'] = distanceUnit == 'meter' ? geolib.getPreciseDistance(from, { latitude: d['latitude'], longitude: d['longitude'] }) : (geolib.getPreciseDistance(from, { latitude: d['latitude'], longitude: d['longitude'] })) / 1000,
+		d['distance'] = distanceUnit == 'meter' ? geolib.getPreciseDistance(from, { latitude: d['latitude'], longitude: d['longitude'] }) : Number(((geolib.getPreciseDistance(from, { latitude: d['latitude'], longitude: d['longitude'] })) / 1000).toFixed(3)),
 		d['distance_unit'] = distanceUnit
 	})
 
