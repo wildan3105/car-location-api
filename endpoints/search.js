@@ -1,4 +1,4 @@
-const { cars, defaultSearchRadiusInKm, badRequest } = require('../lib/constants');
+const { cars, defaultSearchRadiusInKm, badRequest, allowedDistanceUnits } = require('../lib/constants');
 const { isValidCoordinates, isJson } = require('../helper');
 const { order } = require('../lib/filter');
 const geolib = require('geolib');
@@ -9,20 +9,23 @@ module.exports = (query) => {
 		return badRequest;
 	}
 
-	let data;
-
 	const radius = query.radius == undefined ? defaultSearchRadiusInKm * 1000 : query.radius;
+	const distanceUnit = query.unit == undefined ? 'meter' : query.unit;
 	const from = JSON.parse(query.coordinates);
 
 	if(!isValidCoordinates(from)) {
 		return badRequest;
 	}
 
-	if(radius < 0) {
+	if(radius < 0 || isNaN(Number(radius))) {
 		return badRequest;
 	}
 
-	data = cars.data.filter(f => geolib.isPointWithinRadius(
+	if(allowedDistanceUnits.indexOf(distanceUnit) < 0) {
+		return badRequest;
+	}
+
+	let data = cars.data.filter(f => geolib.isPointWithinRadius(
 		{
 			latitude: f.latitude,
 			longitude: f.longitude
@@ -32,8 +35,8 @@ module.exports = (query) => {
 	) == true);
 
 	data.forEach(d => {
-		d['distance'] = geolib.getPreciseDistance(from, { latitude: d['latitude'], longitude: d['longitude'] })
-		d['distance_unit'] = 'meters'
+		d['distance'] = distanceUnit == 'meter' ? geolib.getPreciseDistance(from, { latitude: d['latitude'], longitude: d['longitude'] }) : (geolib.getPreciseDistance(from, { latitude: d['latitude'], longitude: d['longitude'] })) / 1000,
+		d['distance_unit'] = distanceUnit
 	})
 
 	const orderData = order(data, 'distance', 'asc');
