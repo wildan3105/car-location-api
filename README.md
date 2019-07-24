@@ -19,7 +19,7 @@ bla bla blaaa
 	$ docker run -p 3000:3000 -d car-location-api
 	```
 
-Your app should now be running on [localhost:3000](http://localhost:3000).
+The app should now be running on [http://localhost:3000](http://localhost:3000)
 
 ## Feature available
 - order
