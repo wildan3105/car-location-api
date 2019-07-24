@@ -1,6 +1,6 @@
 const { longitudeFormats, latitudeFormats, latitudeLimits, longitudeLimits } = require('../lib/constants');
 
-const isObjectEmpty = (obj) => {
+const isEmptyObject = (obj) => {
 	return Object.keys(obj).length === 0;
 }
 
@@ -20,6 +20,11 @@ const isValidCoordinates = (coordinates) => {
 	};
 
 	const keys = Object.keys(coordinates);
+
+	if(keys.length > 2) {
+		// not a pair of { latitude, longitude }
+		return false;
+	}
 
 	const isLatitudeValid = keys.some(val => latitudeFormats.includes(val));
 	const isLongitudeValid = keys.some(val => longitudeFormats.includes(val));
@@ -42,7 +47,7 @@ const isValidCoordinates = (coordinates) => {
 }
 
 module.exports = {
-	isObjectEmpty,
+	isEmptyObject,
 	isJson,
 	isValidCoordinates
 };
