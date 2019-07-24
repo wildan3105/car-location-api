@@ -16,6 +16,37 @@ When use the endpoint `/cars/search`, there will be two additional fields:
 | distance      | Number | Total distance from certain point to each item in search result |
 | distance_unit      | String | Unit that represents the length of distance, could be in meters/km |
 
+## General Knowledge
+There are several response from this set of APIs. These are the general reponses for every HTTP status:
+- 200 OK
+```
+{
+    status: true,
+    timetamp: 1563941253850,
+    data: [
+        {
+            name: 'some data will appear here'
+        }
+    ]
+}
+```
+- 404 Not Found
+```
+{
+    status: false,
+    timestamp: 1563941253850,
+    message: 'Item with id `384738` is not found'
+}
+```
+- 400 Bad Request
+```
+{
+    status: false,
+    timestamp: 1563941253850,
+    message: 'Wrong type of latitude/longitude!'
+}
+```
+
 ## Endpoints:
 
 1. /cars
