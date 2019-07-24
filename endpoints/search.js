@@ -11,8 +11,8 @@ module.exports = (query) => {
 
 	let data;
 
+	const radius = query.radius == undefined ? defaultSearchRadiusInKm * 1000 : query.radius;
 	const from = JSON.parse(query.coordinates);
-	const radius = JSON.parse(query.radius) || defaultSearchRadiusInKm * 1000;
 
 	if(!isValidCoordinates(from)) {
 		return badRequest;
