@@ -1,6 +1,9 @@
 ## Car Location API 
 A set of APIs for exploring car locations data
 
+## Description
+bla bla blaaa
+
 ## Filter available:
 - order
 	- by id
@@ -20,7 +23,17 @@ A set of APIs for exploring car locations data
 
 ## How to run locally:
 - Traditional
+	```console 
+	$ git clone https://github.com/wildan3105/car-location-api.git
+	$ cd car-location-api
+	$ npm install
+	$ npm start
+	```
+
 - Containerization
+```console
+	$ 
+```
 
 ## API Documentation
 [Click here](DOCUMENTATION.md)
