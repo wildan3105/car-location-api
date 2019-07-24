@@ -5,10 +5,7 @@ const search = require('./search')
 const filter = require('../lib');
 
 router.get('/', (req, res) => {
-	res.json({
-		...dataStatus,
-		path: '/'
-	})
+	res.send('ok');
 })
 
 router.get('/cars', (req, res) => {
