@@ -4,7 +4,7 @@ const geolib = require('geolib');
 
 module.exports = (query) => {
 
-	if(!isJson(query)) {
+	if(!isJson(query.coordinates)) {
 		return badRequest;
 	}
 
@@ -35,7 +35,7 @@ module.exports = (query) => {
 		d['distance_unit'] = 'meters'
 	})
 
-	// TODO: order by distance
+	// TODO: order by shortest distance
 
 	return data;
 }
