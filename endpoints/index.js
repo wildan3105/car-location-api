@@ -55,7 +55,7 @@ router.get('/cars/:id', (req, res) => {
 	} else {
 		res.json({
 			...dataStatus,
-			carById
+			data: carById
 		})
 	}
 })
@@ -63,6 +63,7 @@ router.get('/cars/:id', (req, res) => {
 router.get('*', (req, res) => {
 	res.status(404).json({
 		status: false,
+		timestamp: dataStatus.timestamp,
 		message: "Wow! You are entering the jungle ⛳️"
 	})
 })
