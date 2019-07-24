@@ -1,6 +1,6 @@
 const { cars, defaultSearchRadiusInMeters, allowedDistanceUnits } = require('../lib/constants');
 const { isValidCoordinates, isJsonString } = require('../helper');
-const { order } = require('../lib/filter');
+const { order, pagination } = require('../lib/filter');
 const geolib = require('geolib');
 let { notFound, badRequest } = require('../lib/constants');
 
@@ -48,5 +48,7 @@ module.exports = (query) => {
 		return notFound;
 	}
 
-	return orderedData;
+	const paginatedData = pagination(data, query.from || null, query.size || null);
+
+	return paginatedData;
 }
