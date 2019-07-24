@@ -1,12 +1,12 @@
 const { cars, defaultSearchRadiusInMeters, allowedDistanceUnits } = require('../lib/constants');
-const { isValidCoordinates, isJson } = require('../helper');
+const { isValidCoordinates, isJsonString } = require('../helper');
 const { order } = require('../lib/filter');
 const geolib = require('geolib');
 let { notFound, badRequest } = require('../lib/constants');
 
 module.exports = (query) => {
 
-	if(!isJson(query.coordinates)) {
+	if(!isJsonString(query.coordinates)) {
 		badRequest['message'] = 'Your query is invalid. Please modify your query.';
 		return badRequest;
 	}

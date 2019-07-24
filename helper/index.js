@@ -4,7 +4,7 @@ const isEmptyObject = (obj) => {
 	return Object.keys(obj).length === 0;
 }
 
-const isJson = (string) => {
+const isJsonString = (string) => {
 	try {
 		let json = JSON.parse(string);
 		return (typeof json == 'object');
@@ -48,6 +48,6 @@ const isValidCoordinates = (coordinates) => {
 
 module.exports = {
 	isEmptyObject,
-	isJson,
+	isJsonString,
 	isValidCoordinates
 };
