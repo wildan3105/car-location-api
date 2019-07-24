@@ -1,5 +1,6 @@
 const { cars, defaultSearchRadiusInKm, badRequest } = require('../lib/constants');
 const { isValidCoordinates, isJson } = require('../helper');
+const { order } = require('../lib/filter');
 const geolib = require('geolib');
 
 module.exports = (query) => {
@@ -35,7 +36,7 @@ module.exports = (query) => {
 		d['distance_unit'] = 'meters'
 	})
 
-	// TODO: order by shortest distance
+	const orderData = order(data, 'distance', 'asc');
 
-	return data;
+	return orderData;
 }
