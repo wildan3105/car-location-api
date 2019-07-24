@@ -48,7 +48,13 @@ module.exports = (query) => {
 		return notFound;
 	}
 
-	const paginatedData = pagination(data, query.from || null, query.size || null);
+	let paginatedData = pagination(data, query.from || null, query.size || null);
+	paginatedData['total'] = orderedData.length;
+
+	if(!paginatedData) {
+		badRequest['message'] = 'Wrong request';
+		return badRequest
+	}
 
 	return paginatedData;
 }
