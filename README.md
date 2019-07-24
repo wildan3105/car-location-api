@@ -4,7 +4,7 @@ A set of APIs for exploring car locations data
 ## Description
 bla bla blaaa
 
-## How to run locally:
+## How to run locally
 - Traditional
 	```sh 
 	$ git clone https://github.com/wildan3105/car-location-api.git
@@ -15,11 +15,13 @@ bla bla blaaa
 
 - Containerization
 	```sh
-	$ docker build
-	$ docker run 
+	$ docker build -t car-location-api .
+	$ docker run -p 3000:3000 -d car-location-api
 	```
 
-## Feature available:
+Your app should now be running on [localhost:3000](http://localhost:3000).
+
+## Feature available
 - order
 	- by id
 	- by location_name 
