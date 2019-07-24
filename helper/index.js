@@ -10,7 +10,7 @@ const isJson = (string) => {
 		return (typeof json == 'object');
 	} catch(e) {
 		return false;
-	}
+	};
 }
 
 const isValidCoordinates = (coordinates) => {
@@ -19,14 +19,14 @@ const isValidCoordinates = (coordinates) => {
 		return false;
 	};
 
-	const keys = Object.keys(coordinates)
+	const keys = Object.keys(coordinates);
 
 	const isLatitudeValid = keys.some(val => latitudeFormats.includes(val));
 	const isLongitudeValid = keys.some(val => longitudeFormats.includes(val));
 
 	if(!isLatitudeValid || !isLongitudeValid) {
 		return false;
-	}
+	};
 
 	const keyOne = Object.keys(coordinates)[0];
 	const keyTwo = Object.keys(coordinates)[1];
@@ -36,7 +36,7 @@ const isValidCoordinates = (coordinates) => {
 
 	if((latValue < latitudeLimits.min || latValue > latitudeLimits.max) || (longValue < longitudeLimits.min || longValue > longitudeLimits.max)) {
 		return false;
-	}
+	};
 
 	return true;
 }

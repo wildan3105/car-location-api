@@ -6,5 +6,5 @@ const routeHandler = require('./endpoints');
 app.use('/', routeHandler);
 
 module.exports = app.listen(port, () => {
-	console.log(`Example app listening on port ${port}`)
+	console.log(`car-location-api is listening on port ${port}`)
 })

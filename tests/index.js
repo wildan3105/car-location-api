@@ -223,7 +223,7 @@ describe('Cars endpoint', () => {
 
 		it('Should find item where id & is_on_trip is certain value', (done) => {
 			const where = {
-				is_on_trip: false,
+				is_on_trip: true,
 				id: 1
 			};
 			chai.request(app)
@@ -332,8 +332,8 @@ describe('Cars endpoint', () => {
 			latitudeTypes.forEach(lat => {
 				
 				let coordinates = {};
-				coordinates[lat.name] = 1.023;
-				coordinates['lon'] = 102.23923
+				coordinates[lat.name] = 1.3258246666;
+				coordinates['lon'] = 103.775143166
 				const radius = 2000;
 
 				chai.request(app)
@@ -375,7 +375,7 @@ describe('Cars endpoint', () => {
 				chai.request(app)
 					.get(`/cars/search?coordinates=${JSON.stringify(coordinates)}&radius=${radius}`)
 					.end((err, res) => {
-						res.should.have.status(200);
+						res.should.have.status(404);
 					})
 			})
 			done();
@@ -423,7 +423,7 @@ describe('Cars endpoint', () => {
 				chai.request(app)
 					.get(`/cars/search?coordinates=${JSON.stringify(coordinates)}&radius=${radius}`)
 					.end((err, res) => {
-						res.should.have.status(200);
+						res.should.have.status(404);
 					})
 			})
 			done();
@@ -450,7 +450,7 @@ describe('Cars endpoint', () => {
 				chai.request(app)
 					.get(`/cars/search?coordinates=${JSON.stringify(coordinates)}&radius=${radius}`)
 					.end((err, res) => {
-						res.should.have.status(200);
+						res.should.have.status(404);
 					})	
 			})
 			done();
@@ -504,7 +504,7 @@ describe('Cars endpoint', () => {
 				chai.request(app)
 					.get(`/cars/search?coordinates=${JSON.stringify(coordinates)}&radius=${radius}`)
 					.end((err, res) => {
-						res.should.have.status(200);
+						res.should.have.status(404);
 					})	
 			})
 			done();

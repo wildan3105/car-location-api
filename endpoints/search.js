@@ -1,4 +1,4 @@
-const { cars, defaultSearchRadiusInKm, allowedDistanceUnits } = require('../lib/constants');
+const { cars, defaultSearchRadiusInMeters, allowedDistanceUnits } = require('../lib/constants');
 const { isValidCoordinates, isJson } = require('../helper');
 const { order } = require('../lib/filter');
 const geolib = require('geolib');
@@ -10,7 +10,7 @@ module.exports = (query) => {
 		return badRequest;
 	}
 
-	const radius = query.radius == undefined ? defaultSearchRadiusInKm * 1000 : query.radius;
+	const radius = query.radius == undefined ? defaultSearchRadiusInMeters : query.radius;
 	const distanceUnit = query.unit == undefined ? 'meter' : query.unit;
 	const from = JSON.parse(query.coordinates);
 
@@ -30,10 +30,7 @@ module.exports = (query) => {
 	}
 
 	let data = cars.data.filter(f => geolib.isPointWithinRadius(
-		{
-			latitude: f.latitude,
-			longitude: f.longitude
-		},
+		{ latitude: f.latitude, longitude: f.longitude },
 		from,
 		radius
 	) == true);
@@ -43,12 +40,12 @@ module.exports = (query) => {
 		d['distance_unit'] = distanceUnit
 	})
 
-	const orderData = order(data, 'distance', 'asc');
+	const orderedData = order(data, 'distance', 'asc');
 
-	if(orderData.length <= 0) {
+	if(orderedData.length <= 0) {
 		notFound['message'] = 'Your query is likely not match with any of our data';
 		return notFound;
 	}
 
-	return orderData;
+	return orderedData;
 }
