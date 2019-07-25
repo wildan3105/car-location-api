@@ -223,7 +223,7 @@ describe('Cars endpoint', () => {
 
 		it('Should find item where id & is_on_trip is certain value', (done) => {
 			const where = {
-				is_on_trip: true,
+				is_on_trip: false,
 				id: 1
 			};
 			chai.request(app)
@@ -307,7 +307,7 @@ describe('Cars endpoint', () => {
 				order_type: 'desc'
 			}
 			const pagination = {
-				from: 3,
+				from: 0,
 				size: 3
 			}
 			chai.request(app)
