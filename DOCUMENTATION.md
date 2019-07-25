@@ -4,17 +4,17 @@
 | Field        | Type         | Description  |
 | ------------- |-------------| -----|
 | id      | Number | Unique ID of the car |
-| is_on_trip      | Boolean | Car availability status; if it's true then the car is currently on trip and can't be booked. If it's false then the car is available for booking. |
-| latitude      | Number (float) | Unit that represents the coordinates of the car location in a range of -90 to 90 |
-| longitude      | Number (float) | Unit that represents the coordinates of the car location in a range of -180 to 180 |
-| location_name      | String | Name of the location |
+| is_on_trip      | Boolean | Car availability status. If it's true then the car is currently on a trip and can't be booked. If it's false then the car is available for booking. |
+| latitude      | Number (float) | Unit that represents the coordinates of the car location in a range of -90 to 90. |
+| longitude      | Number (float) | Unit that represents the coordinates of the car location in a range of -180 to 180. |
+| location_name      | String | Name of the location. |
 
 When use the endpoint `/cars/search`, there will be two additional fields:
 
 | Field        | Type         | Description  |
 | ------------- |-------------| -----|
-| distance      | Number (float) | Total distance from certain point to each item in search result |
-| distance_unit      | String | Unit that represents the length of distance, could be in kilometer/meter |
+| distance      | Number (float) | Total distance from a certain point to each item in the search result. |
+| distance_unit      | String | Unit that represents the length of distance, could be in kilometer/meter. |
 
 ## General Knowledge
 These are the general reponses for every HTTP status code:
@@ -57,11 +57,11 @@ GET http://localhost:3000/cars
 ### Query
 | Name        | Type         | Description  |
 | ------------- |-------------| -----|
-| where      | Object | **Optional**. Exact match for car with `id` (number), `location_name` (string), and `is_on_trip` (boolean). If not provided, it will return all cars. If set value to `null` or `0`, it will also return all cars. |
+| where      | Object | **Optional**. Exact match for car with `id` (number), `location_name` (string), and `is_on_trip` (boolean). If not provided, it will return all cars. If the value is set to `null` or `0`, it will also return all cars. |
 | order_name | String | **Optional**. Order car(s) by `id` / `location_name` / `is_on_trip`. If not provided, it will order car(s) by id ascendingly. |
 | order_type | String | **Optional**. Order type whether `asc` (from smallest to largest) or `desc` (from largest to smallest). If not provided but `order_name` is provided, it will order car(s) by id ascendingly. |
-| from       | Number | **Optional**. Skip n-items. Default is 0. Minimum is 0 and maximum is total data (25). |
-| size       | Number | **Optional**. Display n-items. Default is 10. Minimum is 0 (will display empty data) and maximum is total data (25). |
+| from       | Number | **Optional**. Skip n-items. Default is 0. The minimum value is 0 and the maximum value is total data (25). |
+| size       | Number | **Optional**. Display n-items. Default is 10. The minimum value is 0 (will display empty data) and the maximum value is total data (25). |
 
 ### Response
 - WHERE FILTER (id)
@@ -288,8 +288,8 @@ GET http://localhost:3000/cars/search
 | coordinates      | Object | **Required**. The coordinates of the certain point. Accepts an object with a `lat / latitude` AND a `lon / lng / longitude` property . If not provided, it will throw an error. |
 | radius      | Object | **Optional**. The search radius from certain point in meter. If not provided, it will be set to default 5000 meters. |
 | unit      | Object | **Optional**. The unit of distance from certain point to each result item's point (kilometer / meter). If not provided, it will be set to default in meters. |
-| from       | Number | **Optional**. Skip n-items. Default is 0. Minimum is 0 and maximum is total data (25). |
-| size       | Number | **Optional**. Display n-items. Default is 10. Minimum is 0 (will display empty data) and maximum is total data (25). |
+| from       | Number | **Optional**. Skip n-items. Default is 0. The minimum value is 0 and the maximum value is total data (25). |
+| size       | Number | **Optional**. Display n-items. Default is 10. The minimum value is 0 (will display empty data) and the maximum value is total data (25). |
 
 ### Response
 ```
