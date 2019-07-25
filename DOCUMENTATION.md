@@ -17,7 +17,7 @@ When use the endpoint `/cars/search`, there will be two additional fields:
 | distance_unit      | String | Unit that represents the length of distance, could be in kilometer/meter |
 
 ## General Knowledge
-There are several responses from this set of APIs. These are the general reponses for every HTTP status code:
+These are the general reponses for every HTTP status code:
 - 200 OK
 ```javascript
 {
@@ -282,11 +282,54 @@ Location: http://localhost:3000/cars/12345
 GET http://localhost:3000/cars/search
 ```
 
-### Parameter
+### Query
 | Name        | Type         | Description  |
 | ------------- |-------------| -----|
-| coordinates      | Object | **Required**. The id of the car. If not provided, it will be assumed as `/cars` endpoint. |
-| radius      | Object | **Required**. The id of the car. If not provided, it will be assumed as `/cars` endpoint. |
-| unit      | Object | **Required**. The id of the car. If not provided, it will be assumed as `/cars` endpoint. |
+| coordinates      | Object | **Required**. The coordinates of the certain point. Accepts an object with a `lat / latitude` AND a `lon / lng / longitude` property . If not provided, it will throw an error. |
+| radius      | Object | **Optional**. The search radius from certain point in meter. If not provided, it will be set to default 5000 meters. |
+| unit      | Object | **Optional**. The unit of distance from certain point to each result item's point (kilometer / meter). If not provided, it will be set to default in meters. |
 | from       | Number | **Optional**. Skip n-items. Default is 0. Minimum is 0 and maximum is total data (25). |
 | size       | Number | **Optional**. Display n-items. Default is 10. Minimum is 0 (will display empty data) and maximum is total data (25). |
+
+### Response
+```
+Status: 200 OK
+Query: coordinates: { "lat": 1.3258246666, "lon": 103.775143166 }, radius: 4000, unit: kilometer, size: 3
+Location: http://localhost:3000/cars/search?coordinates=%7B%22latitude%22%3A1.3258246666,%20%22lon%22%3A103.775143166%7D&radius=4000&unit=kilometer&size=2
+```
+```javascript
+{
+  "status": true,
+  "timestamp": 1564028268111,
+  "total": 5,
+  "data": [
+    {
+      "latitude": 1.3258246666,
+      "is_on_trip": false,
+      "id": 1,
+      "longitude": 103.775143166,
+      "location_name": "Gotham City",
+      "distance": 0,
+      "distance_unit": "kilometer"
+    },
+    {
+      "latitude": 1.3144906666,
+      "is_on_trip": false,
+      "id": 14,
+      "longitude": 103.765355499,
+      "location_name": "Thugz Mansion",
+      "distance": 1.66,
+      "distance_unit": "kilometer"
+    },
+    {
+      "latitude": 1.314859,
+      "is_on_trip": false,
+      "id": 9,
+      "longitude": 103.764875499,
+      "location_name": "Smallville",
+      "distance": 1.666,
+      "distance_unit": "kilometer"
+    }
+  ]
+}
+```

@@ -6,7 +6,7 @@ This set of APIs is intended to explore car locations data. For the ease of deve
 
 **Order** filter could sort data by `id`, `location_name`, and `trip_status` ascending (from smallest to largest) or descending (from largest to smallest). By default, **pagination** is also applied which will display 10 items for each page. You could skip n-items by set value in `from` query and decide how much item to be displayed in `size` query. The last filter is **where**, which is an exact match query by `id`, `location_name`, or `trip_status`. When using *where* filter, only field `id` and `location_name` will resulted a single or none item because every item in sample data has unique `id` and `location_name`. You can also combine several field (for more example, see at the API documentation at the bottom of this page). 
 
-Search endpoint is using library `geolib`, a zero dependency library to provide some basic geo functions. I use this library because of the simplicity and the need for calculating distance from a point to another point and search within n-radius are provided by this library. In addition, when using this endpoint, there will be two additional fields, `distance` that represents the distance in kilometer/meter between search point's coordinates and result's coordinates and `distance_unit` that represents unit whether in kilometer or meter. 
+Search endpoint is using library `geolib`, a zero dependency library to provide some basic geo functions. I use this library because of the simplicity and the need for calculating distance from a point to another point and search within n-radius are provided by this library. In addition, when using this endpoint, there will be two additional fields, `distance` that represents the distance in kilometer/meter between search point's coordinates and result's coordinates and `distance_unit` that represents unit whether in kilometer or meter. All search result will be ordered by distance ascendingly.
 
 ## How to run locally
 - Traditional (Make sure you have [Node.js](https://nodejs.org) and [NPM](https://www.npmjs.com/get-npm) installed)
@@ -19,6 +19,8 @@ Search endpoint is using library `geolib`, a zero dependency library to provide 
 
 - Containerization (Make sure you have [Docker](https://www.docker.com/) installed)
 	```sh
+	$ git clone https://github.com/wildan3105/car-location-api.git
+	$ cd car-location-api
 	$ docker build -t car-location-api .
 	$ docker run -p 3000:3000 -d car-location-api
 	```
