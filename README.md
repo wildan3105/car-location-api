@@ -40,7 +40,7 @@ The app should now be running on [http://localhost:3000](http://localhost:3000)
 	- location_name
 	- trip status
 - search
-	- search available car within n-meters from certain coordinates
+	- search available car within radius of n-meters from certain coordinates
 
 ## API Documentation
 [Click here](DOCUMENTATION.md)
