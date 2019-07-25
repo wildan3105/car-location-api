@@ -50,6 +50,18 @@ There are several responses from this set of APIs. These are the general reponse
 ## Endpoints:
 
 ## Get all cars 
+```sh
+GET http://localhost:3000/cars
+```
+
+### Query
+| Name        | Type         | Description  |
+| ------------- |-------------| -----|
+| where      | Object | **Optional**. Exact match for car with `id`, `location_name`, and `is_on_trip`. If not provided, it will return all cars. |
+| order_name | String | **Optional**. Order car(s) by `id` / `location_name` / `is_on_trip`. If not provided, it will order car(s) by id ascendingly. |
+| order_type | String | **Optional**. Order type whether `asc` (from smallest to largest) or `desc` (from largest to smallest). If not provided but `order_name` is provided, it will order car(s) by id ascendingly. |
+| from       | Number | **Optional**. Skip n-items. Default is 0. Minimum is 0 and maximum is total data (25). |
+| size       | Number | **Optional**. Display n-items. Default is 10. Minimum is 0 (will display empty data) and maximum is total data (25). |
 
 ## Get a car by id
 ```sh
@@ -59,7 +71,7 @@ GET http://localhost:3000/cars/:id
 ### Parameter
 | Name        | Type         | Description  |
 | ------------- |-------------| -----|
-| id      | String | **Required**. If not provided, it will be assumed as `/cars` endpoint. |
+| id      | Number | **Required**. The id of the car. If not provided, it will be assumed as `/cars` endpoint. |
 
 ### Response
 
