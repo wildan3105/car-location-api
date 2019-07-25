@@ -4,7 +4,7 @@
   "description": "Car location API services",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
+    "start": "node index.js",
     "test": "mocha ./tests --recursive"
   },
   "repository": {
