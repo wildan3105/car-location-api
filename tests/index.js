@@ -40,6 +40,21 @@ describe('Cars endpoint', () => {
 				})
 		})
 
+		it('Should get all cars and get ordered items by id ascendingly', (done) => {
+			chai.request(app)
+				.get('/cars')
+				.end((err, res) => {
+					const data = res.body.data;
+					const firstItemId = data[0].id;
+					const secondItemId = data[1].id;
+					res.should.have.status(200);
+					res.body.should.be.a('object');
+					expect(data).to.have.lengthOf.at.least(1);
+					expect(firstItemId < secondItemId).to.be.true;
+					done();
+				})
+		})
+
 		it('Should get a car by id', (done) => {
 			const id = 8;
 			chai.request(app)
