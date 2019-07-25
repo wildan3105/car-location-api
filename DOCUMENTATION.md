@@ -57,11 +57,181 @@ GET http://localhost:3000/cars
 ### Query
 | Name        | Type         | Description  |
 | ------------- |-------------| -----|
-| where      | Object | **Optional**. Exact match for car with `id`, `location_name`, and `is_on_trip`. If not provided, it will return all cars. |
+| where      | Object | **Optional**. Exact match for car with `id` (number), `location_name` (string), and `is_on_trip` (boolean). If not provided, it will return all cars. |
 | order_name | String | **Optional**. Order car(s) by `id` / `location_name` / `is_on_trip`. If not provided, it will order car(s) by id ascendingly. |
 | order_type | String | **Optional**. Order type whether `asc` (from smallest to largest) or `desc` (from largest to smallest). If not provided but `order_name` is provided, it will order car(s) by id ascendingly. |
 | from       | Number | **Optional**. Skip n-items. Default is 0. Minimum is 0 and maximum is total data (25). |
 | size       | Number | **Optional**. Display n-items. Default is 10. Minimum is 0 (will display empty data) and maximum is total data (25). |
+
+### Response
+- WHERE FILTER (id)
+```
+Status: 200 OK
+Query: where: { "id": 1}
+Location: http://localhost:3000/cars?where=%7B%22id%22%3A%201%20%7D
+```
+```javascript
+{
+  "status": true,
+  "timestamp": 1563981291594,
+  "total": 1,
+  "data": [
+    {
+      "latitude": "1.3258246666",
+      "is_on_trip": true,
+      "id": 1,
+      "longitude": "103.775143166",
+      "location_name": "Gotham City"
+    }
+  ]
+}
+```
+- WHERE FILTER (location_name)
+```
+Status: 200 OK
+Query: where: { "location_name": "Gotham City" }
+Location: http://localhost:3000/cars?where=%7B%20%22location_name%22%3A%20%22Gotham%20City%22%20%7D
+```
+```javascript
+{
+  "status": true,
+  "timestamp": 1564026468206,
+  "total": 1,
+  "data": [
+    {
+      "latitude": 1.3258246666,
+      "is_on_trip": false,
+      "id": 1,
+      "longitude": 103.775143166,
+      "location_name": "Gotham City"
+    }
+  ]
+}
+```
+- WHERE FILTER (is_on_trip)
+```
+Status: 200 OK
+Query: where: { "is_on_trip": true }
+Location: http://localhost:3000/cars?where=%7B%20%22is_on_trip%22%3A%20true%20%7D
+```
+```javascript
+{
+  "status": true,
+  "timestamp": 1564026391561,
+  "total": 3,
+  "data": [
+    {
+      "latitude": 1.2892128333,
+      "is_on_trip": true,
+      "id": 3,
+      "longitude": 103.812455333,
+      "location_name": "Blüdhaven"
+    },
+    {
+      "latitude": 1.3393671666,
+      "is_on_trip": true,
+      "id": 18,
+      "longitude": 103.907343,
+      "location_name": "The Citadel"
+    },
+    {
+      "latitude": 1.3420098333,
+      "is_on_trip": true,
+      "id": 23,
+      "longitude": 103.705182,
+      "location_name": "Bedrock"
+    }
+  ]
+}
+```
+- ORDER FILTER
+```
+Status: 200 OK
+Query: order_name: id & order_type: desc
+Location: http://localhost:3000/cars?order_name=id&order_type=desc
+```
+```javascript
+{
+  "status": true,
+  "timestamp": 1564026510417,
+  "total": 25,
+  "data": [
+    {
+      "latitude": 1.4353171666,
+      "is_on_trip": false,
+      "id": 25,
+      "longitude": 103.780482333,
+      "location_name": "South Park"
+    },
+    {
+      "latitude": 1.3984893333,
+      "is_on_trip": false,
+      "id": 24,
+      "longitude": 103.745537333,
+      "location_name": "New Vegas"
+    },
+    ...
+    ]
+}
+```
+- PAGINATION FILTER
+```
+Status: 200 OK
+Query: from: 1 & size: 2
+Location: http://localhost:3000/cars?from=1&size=2
+```
+```javascript
+{
+  "status": true,
+  "timestamp": 1564026796089,
+  "total": 25,
+  "data": [
+    {
+      "latitude": 1.3435921666,
+      "is_on_trip": false,
+      "id": 2,
+      "longitude": 103.701648666,
+      "location_name": "Metropolis"
+    },
+    {
+      "latitude": 1.2892128333,
+      "is_on_trip": true,
+      "id": 3,
+      "longitude": 103.812455333,
+      "location_name": "Blüdhaven"
+    }
+  ]
+}
+```
+- INTEGRATION FILTER
+```
+Status: 200 OK
+Query: where: { "is_on_trip": true }, order_name: location_name, order_type: desc, from: 0, size: 2
+Location: http://localhost:3000/cars?where=%7B%22is_on_trip%22%3A%20true%7D&order_name=location_name&order_type=desc&from=0&size=2
+```
+```javascript
+{
+  "status": true,
+  "timestamp": 1564026876087,
+  "total": 3,
+  "data": [
+    {
+      "latitude": 1.3393671666,
+      "is_on_trip": true,
+      "id": 18,
+      "longitude": 103.907343,
+      "location_name": "The Citadel"
+    },
+    {
+      "latitude": 1.2892128333,
+      "is_on_trip": true,
+      "id": 3,
+      "longitude": 103.812455333,
+      "location_name": "Blüdhaven"
+    }
+  ]
+}
+```
 
 ## Get a car by id
 ```sh
@@ -108,3 +278,15 @@ Location: http://localhost:3000/cars/12345
 
 
 ## Search car
+```sh
+GET http://localhost:3000/cars/search
+```
+
+### Parameter
+| Name        | Type         | Description  |
+| ------------- |-------------| -----|
+| coordinates      | Object | **Required**. The id of the car. If not provided, it will be assumed as `/cars` endpoint. |
+| radius      | Object | **Required**. The id of the car. If not provided, it will be assumed as `/cars` endpoint. |
+| unit      | Object | **Required**. The id of the car. If not provided, it will be assumed as `/cars` endpoint. |
+| from       | Number | **Optional**. Skip n-items. Default is 0. Minimum is 0 and maximum is total data (25). |
+| size       | Number | **Optional**. Display n-items. Default is 10. Minimum is 0 (will display empty data) and maximum is total data (25). |
