@@ -2,7 +2,7 @@
   "data": [
     {
       "latitude": 1.3258246666,
-      "is_on_trip": true,
+      "is_on_trip": false,
       "id": 1,
       "longitude": 103.775143166,
       "location_name": "Gotham City"
@@ -58,7 +58,7 @@
     },
     {
       "latitude": 1.314859,
-      "is_on_trip": true,
+      "is_on_trip": false,
       "id": 9,
       "longitude": 103.764875499,
       "location_name": "Smallville"
@@ -86,7 +86,7 @@
     },
     {
       "latitude": 1.3144741666,
-      "is_on_trip": true,
+      "is_on_trip": false,
       "id": 13,
       "longitude": 103.765070500,
       "location_name": "King's Landing"
