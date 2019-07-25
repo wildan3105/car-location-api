@@ -40,12 +40,12 @@ describe('Cars endpoint', () => {
 				})
 		})
 
-		it('Should get a one car by id', (done) => {
+		it('Should get a car by id', (done) => {
 			const id = 8;
 			chai.request(app)
 				.get(`/cars/${id}`)
 				.end((err, res) => {
-					const carById = res.body.carById;
+					const carById = res.body.data;
 					res.should.have.status(200);
 					carById.should.be.a('array');
 					expect(carById).to.have.lengthOf(1);
