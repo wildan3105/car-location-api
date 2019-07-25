@@ -286,8 +286,8 @@ GET http://localhost:3000/cars/search
 | Name        | Type         | Description  |
 | ------------- |-------------| -----|
 | coordinates      | Object | **Required**. The coordinates of the certain point. Accepts an object with a `lat / latitude` AND a `lon / lng / longitude` property . If not provided, it will throw an error. |
-| radius      | Object | **Optional**. The search radius from certain point in meter. If not provided, it will be set to default 5000 meters. |
-| unit      | Object | **Optional**. The unit of distance from certain point to each result item's point (kilometer / meter). If not provided, it will be set to default in meters. |
+| radius      | Number | **Optional**. The search radius from certain point in meter. If not provided, it will be set to default 5000 meters. |
+| unit      | String | **Optional**. The unit of distance from certain point to each result item's point (kilometer / meter). If not provided, it will be set to default in meters. |
 | from       | Number | **Optional**. Skip n-items. Default is 0. The minimum value is 0 and the maximum value is total data (25). |
 | size       | Number | **Optional**. Display n-items. Default is 10. The minimum value is 0 (will display empty data) and the maximum value is total data (25). |
 
