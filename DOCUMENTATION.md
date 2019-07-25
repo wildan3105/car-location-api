@@ -4,7 +4,7 @@
 | Field        | Type         | Description  |
 | ------------- |-------------| -----|
 | id      | Number | Unique ID of the car |
-| is_on_trip      | Boolean | Car availability status; if it's true then the car is currently on trip and can't be booked and vice versa |
+| is_on_trip      | Boolean | Car availability status; if it's true then the car is currently on trip and can't be booked. If it's false then the car is available for booking. |
 | latitude      | Number (float) | Unit that represents the coordinates of the car location in a range of -90 to 90 |
 | longitude      | Number (float) | Unit that represents the coordinates of the car location in a range of -180 to 180 |
 | location_name      | String | Name of the location |
@@ -57,7 +57,7 @@ GET http://localhost:3000/cars
 ### Query
 | Name        | Type         | Description  |
 | ------------- |-------------| -----|
-| where      | Object | **Optional**. Exact match for car with `id` (number), `location_name` (string), and `is_on_trip` (boolean). If not provided, it will return all cars. |
+| where      | Object | **Optional**. Exact match for car with `id` (number), `location_name` (string), and `is_on_trip` (boolean). If not provided, it will return all cars. If set value to `null` or `0`, it will also return all cars. |
 | order_name | String | **Optional**. Order car(s) by `id` / `location_name` / `is_on_trip`. If not provided, it will order car(s) by id ascendingly. |
 | order_type | String | **Optional**. Order type whether `asc` (from smallest to largest) or `desc` (from largest to smallest). If not provided but `order_name` is provided, it will order car(s) by id ascendingly. |
 | from       | Number | **Optional**. Skip n-items. Default is 0. Minimum is 0 and maximum is total data (25). |
@@ -295,7 +295,7 @@ GET http://localhost:3000/cars/search
 ```
 Status: 200 OK
 Query: coordinates: { "lat": 1.3258246666, "lon": 103.775143166 }, radius: 4000, unit: kilometer, size: 3
-Location: http://localhost:3000/cars/search?coordinates=%7B%22latitude%22%3A1.3258246666,%20%22lon%22%3A103.775143166%7D&radius=4000&unit=kilometer&size=2
+Location: http://localhost:3000/cars/search?coordinates=%7B%22latitude%22%3A1.3258246666,%20%22lon%22%3A103.775143166%7D&radius=4000&unit=kilometer&size=3s
 ```
 ```javascript
 {
