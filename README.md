@@ -5,7 +5,7 @@ A set of APIs for exploring car locations data
 bla bla blaaa
 
 ## How to run locally
-- Traditional
+- Traditional (Make sure you have [Node.js](https://nodejs.org) and [NPM](https://www.npmjs.com/get-npm) installed)
 	```sh 
 	$ git clone https://github.com/wildan3105/car-location-api.git
 	$ cd car-location-api
@@ -13,7 +13,7 @@ bla bla blaaa
 	$ npm start
 	```
 
-- Containerization
+- Containerization (Make sure you have [Docker](https://www.docker.com/) installed)
 	```sh
 	$ docker build -t car-location-api .
 	$ docker run -p 3000:3000 -d car-location-api
