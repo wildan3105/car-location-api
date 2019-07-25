@@ -7,7 +7,21 @@ const filter = require('../lib');
 router.get('/', (req, res) => {
 	res.json({
 		...dataStatus,
-		path: '/'
+		path: '/',
+		availableEndpoints: [
+			{
+				endpoint: '/cars',
+				description: 'Get all cars'
+			},
+			{
+				endpoint: '/cars/:id',
+				description: 'Get car by id'
+			},
+			{
+				endpoint: '/cars/search',
+				description: 'Search car by location coordinates'
+			}
+		]
 	})
 })
 
